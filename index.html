@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Bowl - Unblocked</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        h1 {
+            margin: 15px 0;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #ffcc00;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        iframe {
+            border: none;
+            width: 100%;
+            height: calc(100vh - 80px);
+            background: #111;
+        }
+        .controls {
+            padding: 10px;
+            background: #1a1a1a;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 1.1em;
+            background: #ffcc00;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ffd633;
+        }
+        .fullscreen-btn {
+            background: #00cc00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Retro Bowl 🏈 Unblocked</h1>
+        
+        <div class="controls">
+            <button onclick="toggleFullscreen()">⛶ Fullscreen</button>
+            <button onclick="window.location.reload()">↻ Reload Game</button>
+        </div>
+
+        <!-- Main game embed -->
+        <iframe id="game" 
+                src="https://amhooman.github.io/website/games/retrobowl/game.html" 
+                allow="fullscreen; accelerometer; gyroscope; magnetometer; autoplay">
+        </iframe>
+    </div>
+
+    <script>
+        function toggleFullscreen() {
+            const iframe = document.getElementById('game');
+            if (!document.fullscreenElement) {
+                iframe.requestFullscreen().catch(err => {
+                    alert("Fullscreen not supported or blocked: " + err.message);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Optional: Auto fullscreen on double click
+        document.getElementById('game').addEventListener('dblclick', toggleFullscreen);
+
+        // Keyboard shortcut: Press F to toggle fullscreen
+        document.addEventListener('keydown', function(e) {
+            if (e.key.toLowerCase() === 'f') {
+                toggleFullscreen();
+            }
+        });
+    </script>
+</body>
+</html>
