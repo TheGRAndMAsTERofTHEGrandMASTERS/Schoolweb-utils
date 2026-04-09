@@ -3,41 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Tools - Dashboard</title>
+    <title>School Tools - Math Practice</title>
     <style>
         body { 
             font-family: Arial, sans-serif; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin: 0; padding: 0; color: white;
             height: 100vh;
+            overflow: hidden;
         }
         .header {
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.3);
             padding: 20px;
             text-align: center;
             font-size: 28px;
             font-weight: bold;
         }
         .container {
-            max-width: 1000px;
-            margin: 40px auto;
+            max-width: 800px;
+            margin: 30px auto;
             padding: 20px;
         }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+        .quiz-container {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 15px;
         }
-        .card {
-            background: rgba(255,255,255,0.1);
-            padding: 25px;
-            border-radius: 12px;
+        .question {
+            margin-bottom: 25px;
+        }
+        input, button {
+            padding: 10px 15px;
+            margin-top: 8px;
+            border-radius: 6px;
+            border: none;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .result {
             text-align: center;
-            transition: 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-8px);
-            background: rgba(255,255,255,0.2);
+            font-size: 24px;
+            margin: 20px 0;
+            display: none;
         }
         .hidden-game {
             display: none;
@@ -54,40 +65,73 @@
     </style>
 </head>
 <body>
-    <div class="header">School Tools - Dashboard</div>
+    <div class="header">School Tools - Math Practice</div>
     
     <div class="container">
-        <div class="grid">
-            <div class="card" onclick="alert('Calculator opening... (demo)')">
-                <h2>🧮 Calculator</h2>
-                <p>Basic & Scientific calculator</p>
-            </div>
-            <div class="card" onclick="alert('Notes opening... (demo)')">
-                <h2>📝 Notes</h2>
-                <p>Quick note taking tool</p>
-            </div>
-            <div class="card" onclick="alert('Dictionary opening... (demo)')">
-                <h2>📖 Dictionary</h2>
-                <p>Word definitions & thesaurus</p>
-            </div>
-            <div class="card" onclick="showGame()">
-                <h2>🏈 Retro Bowl</h2>
-                <p>Classic football game (for stress relief)</p>
-            </div>
+        <div class="quiz-container" id="quiz">
+            <h2>Complete the Math Quiz to unlock the next tool</h2>
+            
+            <form id="mathForm">
+                <!-- Questions will be added by JavaScript -->
+            </form>
+
+            <button onclick="submitQuiz()">Submit Answers</button>
         </div>
+
+        <div id="result" class="result"></div>
     </div>
 
+    <!-- Hidden Retro Bowl Game -->
     <div id="gameContainer" class="hidden-game">
         <iframe id="gameFrame" src="https://www.retrobowl.me/" allowfullscreen></iframe>
     </div>
 
     <script>
-        function showGame() {
+        const questions = [
+            "What is 15 × 8?",
+            "Solve: 144 ÷ 12 = ?",
+            "What is 25% of 80?",
+            "What is 7³?",
+            "Solve: 5x = 45. What is x?",
+            "What is the square root of 169?",
+            "What is 2.5 × 4.8?",
+            "How many degrees in a right angle?",
+            "What is 13 × 13?",
+            "Solve: 48 ÷ 6 × 3 = ?"
+        ];
+
+        const answers = ["120", "12", "20", "343", "9", "13", "12", "90", "169", "24"];
+
+        let formHTML = "";
+        questions.forEach((q, i) => {
+            formHTML += `
+                <div class="question">
+                    <p><strong>${i+1}. ${q}</strong></p>
+                    <input type="text" id="q${i}" placeholder="Your answer">
+                </div>`;
+        });
+        document.getElementById("mathForm").innerHTML = formHTML;
+
+        function submitQuiz() {
+            const resultDiv = document.getElementById("result");
+            resultDiv.style.display = "block";
+            resultDiv.innerHTML = `
+                <h2>You got 5 out of 10 correct.</h2>
+                <p>Not bad! Keep practicing.</p>
+                <button onclick="unlockGame()" style="background:#2196F3; padding:12px 25px; font-size:18px;">
+                    Continue to Next Tool
+                </button>
+            `;
+        }
+
+        function unlockGame() {
+            document.getElementById("quiz").style.display = "none";
+            document.getElementById("result").style.display = "none";
             document.getElementById("gameContainer").style.display = "block";
         }
-        
-        // Press ESC to close the game
-        document.addEventListener("keydown", function(e) {
+
+        // Press ESC to close game
+        document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 document.getElementById("gameContainer").style.display = "none";
             }
